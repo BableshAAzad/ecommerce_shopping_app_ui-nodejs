@@ -1,14 +1,13 @@
 import { Button, Label, Radio, Textarea, TextInput } from "flowbite-react"
-import React, { useContext, useEffect, useId, useState } from "react";
+import React, { useContext, useId, useState } from "react";
 import axios from "axios";
 import { addressType } from "./AddressTypes"
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "../authprovider/AuthProvider";
 import { BASE_URL } from "../appconstants/EcommerceUrl"
 
 function UpdateAddress() {
     let id = useId();
-    const navigate = useNavigate();
     const location = useLocation();
     let { setProgress,
         setIsLoading,
@@ -19,13 +18,7 @@ function UpdateAddress() {
     document.title = "Update Address - Ecommerce Shopping App"
 
     const previousLocation = location.state?.from || "/";
-
-    useEffect(() => {
-        if (!location.state.data) {
-            navigate("/profile-page");
-        } else if (!location.state.data.addressId)
-            navigate("/profile-page");
-    }, [location.state.data, navigate]);
+    // console.log(location.state)
 
     let [addressData, setAddressData] = useState({
         streetAddress: location.state.data?.streetAddress ?? "",
@@ -48,10 +41,10 @@ function UpdateAddress() {
         setProgress(30)
         setIsLoading(true);
         e.preventDefault();
-        console.log(addressData);
+        // console.log(addressData);
         setProgress(70)
         try {
-            const response = await axios.put(`${BASE_URL}users/addresses/${location.state.data.addressId}`,
+            const response = await axios.put(`${BASE_URL}users/addresses/${location.state.data._id}`,
                 addressData,
                 {
                     headers: { "Content-Type": "application/json" },
