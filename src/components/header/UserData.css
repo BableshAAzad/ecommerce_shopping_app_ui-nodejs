@@ -1,0 +1,35 @@
+.navbtn {
+    color: rgb(55 65 81);
+}
+
+.navbtn:hover {
+    color: rgb(58, 88, 148);
+}
+
+.navbtn #optbutton {
+    width: -webkit-fill-available;
+    text-align: left;
+}
+
+.logoutbtn {
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+
+@media only screen and (max-width: 767px) {
+    .navbtn {
+        padding-right: 1rem;
+        padding-left: 0.75rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .logoutbtn {
+        padding-left: 1.60rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+}

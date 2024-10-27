@@ -1,0 +1,23 @@
+.popUpMain {
+    position: fixed;
+    width: 70%;
+    height: 3rem;
+    margin: 10px 0px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(189, 189, 189, 0.8);
+}
