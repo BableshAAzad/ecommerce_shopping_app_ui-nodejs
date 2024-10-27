@@ -1,6 +1,5 @@
 import { Button, Card } from "flowbite-react"
 import { useNavigate } from "react-router-dom"
-import warehouse from "../../images/warehouseImg.png"
 import product from "../../images/products.png"
 import storage from "../../images/storageImg.png"
 
@@ -10,8 +9,7 @@ function SellerComp() {
     document.title = "Warehouse options - Ecommerce Shopping App"
 
     let comps = [
-        { url: "/sellers/wareHouses", title: "WareHouses", image: warehouse, btnColor: "purpleToBlue" },
-        { url: "/sellers/storages", title: "Your Storages", image: storage, btnColor: "purpleToPink" },
+        { url: "/sellers/products/add-product", title: "Add Products", image: storage, btnColor: "purpleToPink" },
         { url: "/sellers/products", title: "Your Products", image: product, btnColor: "tealToLime" }
     ]
 

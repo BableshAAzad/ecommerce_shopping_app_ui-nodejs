@@ -2,7 +2,7 @@ import { Button, Checkbox, FileInput, HR, Label, Select, Textarea, TextInput } f
 import React, { useContext, useId, useState } from "react";
 import { materialTypesList } from "../MaterialTypes";
 import { AuthContext } from "../../authprovider/AuthProvider";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { discounts } from "../DiscountTypes"
 import { BASE_URL } from "../../appconstants/EcommerceUrl"
@@ -27,14 +27,12 @@ function AddProduct() {
         productImage: null,
         materialTypes: [],
         discountType: "",
-        discount: ""
+        discount: "",
+        stocks: ""
     })
-    let [productQuantity, setProductQuantity] = useState({ quantity: "" });
     let [productImage, setProductImage] = useState(null);
-    let { storageId } = useParams();
     const location = useLocation();
     const previousLocation = location.state?.from || "/";
-    let materials = location.state.storageData || [];
 
     document.title = "Add Product - Ecommerce Shopping App"
 
@@ -51,8 +49,6 @@ function AddProduct() {
                     materialTypes: prevState.materialTypes.filter(type => type !== value)
                 }));
             }
-        } else if (name === "quantity") {
-            setProductQuantity({ ...productQuantity, [name]: value })
         } else if (name === "productImage") {
             setProductImage(files[0]);
             setFormData({ ...formData, [name]: URL.createObjectURL(files[0]) });
@@ -72,7 +68,7 @@ function AddProduct() {
                 formData = { ...formData, productImage: productImage }
             }
             setProgress(70)
-            const response = await axios.post(`${BASE_URL}products?quantity=${productQuantity.quantity}`,
+            const response = await axios.post(`${BASE_URL}products`,
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
@@ -92,14 +88,14 @@ function AddProduct() {
             }
         } catch (error) {
             console.log(error);
-            if (error.response && error.response.data.rootCause) {
-                let errMessages = error.response.data.rootCause;
+            if (error.response && error.response.data.message) {
+                let errMessages = error.response.data.message;
 
-                let errorMessage = Object.keys(errMessages)
-                    .map(key => `${key} => ${errMessages[key]}`)
-                    .join("\n");
+                // let errorMessage = Object.keys(errMessages)
+                //     .map(key => `${key} => ${errMessages[key]}`)
+                //     .join("\n");
 
-                alert(errorMessage);
+                alert(errMessages);
             } else {
                 alert("An unknown error occurred.");
             }
@@ -167,9 +163,9 @@ function AddProduct() {
 
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor={`${id}pquantity`} value="Quantity" />
+                                <Label htmlFor={`${id}pquantity`} value="Stocks" />
                             </div>
-                            <TextInput id={`${id}pquantity`} name="quantity" value={productQuantity.quantity} type="number" placeholder="eg. 2" onChange={handleFormData} required shadow />
+                            <TextInput id={`${id}pquantity`} name="stocks" value={formData.stocks} type="number" placeholder="eg. 2" onChange={handleFormData} required shadow />
                         </div>
                     </section>
 
@@ -194,19 +190,17 @@ function AddProduct() {
                         <div className="grid grid-cols-2 gap-2 mt-2">
                             {materialTypesList.map((type, index) => (
                                 <React.Fragment key={index}>
-                                    {materials.includes(type) && (
-                                        <div className="flex items-center space-x-2">
-                                            <Checkbox
-                                                id={`${id}${type}`}
-                                                name="materialTypes"
-                                                value={type}
-                                                onChange={handleFormData}
-                                                label={type}
-                                                className="mr-2"
-                                            />
-                                            <Label htmlFor={`${id}${type}`}>{type}</Label>
-                                        </div>
-                                    )}
+                                    <div className="flex items-center space-x-2">
+                                        <Checkbox
+                                            id={`${id}${type}`}
+                                            name="materialTypes"
+                                            value={type}
+                                            onChange={handleFormData}
+                                            label={type}
+                                            className="mr-2"
+                                        />
+                                        <Label htmlFor={`${id}${type}`}>{type}</Label>
+                                    </div>
                                 </React.Fragment>
                             ))}
                         </div>
