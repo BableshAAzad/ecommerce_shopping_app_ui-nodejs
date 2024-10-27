@@ -18,7 +18,6 @@ const AddProduct = React.lazy(() => import("../seller/product/AddProduct"));
 const ProductBySeller = React.lazy(() => import("../seller/product/ProductBySeller"));
 const SellerComp = React.lazy(() => import("../seller/SellerComp"));
 const Storage = React.lazy(() => import("../seller/storage/Storage"));
-const WareHouse = React.lazy(() => import("../seller/WareHouse"));
 const ProfilePage = React.lazy(() => import("../userinfo/ProfilePage"));
 const StoragesByWareHouses = React.lazy(() => import("../seller/storage/StoragesByWareHouses"));
 const ProductInfoSeller = React.lazy(() => import("../seller/product/ProductInfoSeller"));
@@ -215,17 +214,6 @@ export const RouteComps = [
     {
         element: (
             <Suspense fallback={<Spinner />}>
-                <WareHouse />
-            </Suspense>
-        ),
-        path: "sellers/wareHouses",
-        isPrivate: true,
-        isVisibleAfterLogin: true,
-        role: ["SELLER"]
-    },
-    {
-        element: (
-            <Suspense fallback={<Spinner />}>
                 <Storage />
             </Suspense>
         ),
@@ -273,7 +261,7 @@ export const RouteComps = [
                 <AddProduct />
             </Suspense>
         ),
-        path: "sellers/products/add-product/:storageId",
+        path: "sellers/products/add-product",
         isPrivate: true,
         isVisibleAfterLogin: true,
         role: ["SELLER"]
