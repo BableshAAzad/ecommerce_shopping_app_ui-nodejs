@@ -34,9 +34,9 @@ function UpdateProduct() {
         productImage: product.productImage || null,
         inventoryId: product.inventoryId || "",
         restockedAt: product.restockedAt,
-        updatedInventoryAt: product.updatedInventoryAt
+        updatedInventoryAt: product.updatedInventoryAt,
+        stocks: product.stocks
     })
-    let [productQuantity, setProductQuantity] = useState({ quantity: product.stocks[0].quantity || 0 });
     let from = location.state.from || "/"
 
     document.title = "Update Product - Ecommerce Shopping App"
@@ -54,8 +54,6 @@ function UpdateProduct() {
                     materialTypes: prevState.materialTypes.filter(type => type !== value)
                 }));
             }
-        } else if (name === "quantity") {
-            setProductQuantity({ ...productQuantity, [name]: value })
         } else if (name === "productImage") {
             setProductImage(files[0])
             setFormData({ ...formData, [name]: URL.createObjectURL(files[0]) });
@@ -86,7 +84,7 @@ function UpdateProduct() {
         }
         setProgress(70)
         try {
-            const response = await axios.put(`${BASE_URL}sellers/products/${productId}/stocks?quantity=${productQuantity.quantity}`,
+            const response = await axios.put(`${BASE_URL}sellers/products/${productId}`,
                 multipartFormData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
@@ -172,11 +170,11 @@ function UpdateProduct() {
 
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor={`${id}pquantityu`} value="Quantity" />
+                                <Label htmlFor={`${id}pquantityu`} value="Stocks" />
                             </div>
                             <TextInput id={`${id}pquantityu`}
-                                name="quantity"
-                                value={productQuantity.quantity}
+                                name="stocks"
+                                value={formData.stocks || 0}
                                 type="number"
                                 placeholder="eg. 2"
                                 onChange={handleFormData}
