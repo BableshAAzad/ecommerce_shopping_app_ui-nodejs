@@ -60,7 +60,7 @@ function ProductBySeller() {
         }
       );
       response = response.data;
-      console.log(response);
+      // console.log(response);
       setProducts(prevProduct => prevProduct.concat(response.data.content));
       setFilteredProducts(prevProduct => prevProduct.concat(response.data.content))
       setTotalResults(response.data.page.totalElements);
@@ -114,10 +114,10 @@ function ProductBySeller() {
         scrollableTarget="row"
       >
         <section className="flex flex-wrap m-1 justify-around">
-          {filteredProducts.length > 0 ? filteredProducts.map(({ inventoryId, productTitle, price, productImage, description, discount }) => {
+          {filteredProducts.length > 0 ? filteredProducts.map(({ _id, productTitle, price, productImage, description, discount }) => {
             return (
-              <Link to={`/sellers/products/product-info/${inventoryId}`}
-                key={inventoryId}
+              <Link to={`/sellers/products/product-info/${_id}`}
+                key={_id}
                 className="rounded-md m-2 w-44 cardShadow product-link"
                 title={productTitle}>
                 <img

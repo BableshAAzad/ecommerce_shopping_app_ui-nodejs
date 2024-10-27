@@ -27,7 +27,7 @@ function ProductInfoSeller() {
             response = response.data.data;
             setProduct(response);
             // console.log(response);
-            setStocks(response.stocks[0].quantity);
+            setStocks(response.stocks);
         } catch (error) {
             console.log(error)
         } finally {
@@ -56,7 +56,7 @@ function ProductInfoSeller() {
                                 <HiArrowRight className="mr-2 h-5 w-5" />
                                 Edit Product
                             </Button>
-                            <Button gradientMonochrome="failure">
+                            <Button gradientMonochrome="failure" disabled>
                                 <HiTrash className="mr-2 h-5 w-5" />
                                 Delete Product
                             </Button>

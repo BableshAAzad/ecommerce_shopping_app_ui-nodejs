@@ -36,7 +36,7 @@ function ProductInfo() {
             setProduct(response)
             setProgress(90)
             // console.log(response)
-            setStocks(response.stocks[0].quantity)
+            setStocks(response.stocks)
         } catch (error) {
             console.log(error)
         } finally {
