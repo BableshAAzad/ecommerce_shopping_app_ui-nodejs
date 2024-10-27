@@ -25,7 +25,6 @@ function ProductInfo() {
     const [popupOpen, setPopupOpen] = useState(false);
     const [popupData, setPopupData] = useState({});
     const [responseSuccessButton, setResponseSuccessButton] = useState(false);
-
     let getProduct = async () => {
         try {
             setProgress(30)
@@ -70,11 +69,11 @@ function ProductInfo() {
         let tempProduct = {
             "selectedQuantity": orderQuantity,
             "product": {
-                "productId": product.inventoryId,
+                "productId": product._id,
                 "productTitle": product.productTitle,
                 "productDescription": product.description,
                 "productPrice": product.price,
-                "productQuantity": product.stocks[0].quantity,
+                "productQuantity": product.stocks,
                 "availabilityStatus": "YES"
             }
         }

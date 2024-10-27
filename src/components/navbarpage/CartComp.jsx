@@ -43,7 +43,7 @@ function CartComp() {
                 withCredentials: true,
             });
             setProgress(90)
-            // console.log(responseCartProducts)
+            console.log(responseCartProducts.data.data)
             setCartProduct(responseCartProducts.data.data)
         } catch (error) {
             console.error(error);
@@ -64,7 +64,7 @@ function CartComp() {
 
         cartProduct.forEach(product => {
             totalItem += product.selectedQuantity;
-            const productTotalPrice = product.selectedQuantity * product.product.productPrice;
+            const productTotalPrice = product.selectedQuantity * product.product.price;
             totalPrice += productTotalPrice;
 
             const discountAmount = (product.product.discount / 100) * productTotalPrice;
@@ -140,17 +140,12 @@ function CartComp() {
         try {
             setProgress(60)
             const responseCartProducts = await axios.put(`${BASE_URL}customers/cart-products/${cartProductId}?selectedQuantity=${selectedQuantity}`,
-                "", {
+                {}, {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
             });
             setProgress(90)
-            // console.log(responseCartProducts)
-            setCartProduct(cartProduct.map(product =>
-                product.cartProductId === cartProductId
-                    ? { ...product, selectedQuantity }
-                    : product
-            ));
+            await handleCartProduct();
         } catch (error) {
             console.error(error);
         } finally {
@@ -189,30 +184,30 @@ function CartComp() {
                     </Table.Head>
 
                     <Table.Body className="divide-y">
-                        {cartProduct.map(({ cartProductId, selectedQuantity, product }) => {
-                            return <Table.Row key={cartProductId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        {cartProduct.map(({ _id, selectedQuantity, product }) => {
+                            return <Table.Row key={_id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {product.productTitle}
                                 </Table.Cell>
-                                <Table.Cell>{product.productPrice}</Table.Cell>
+                                <Table.Cell>{product.price}</Table.Cell>
                                 <Table.Cell>{product.discount}%</Table.Cell>
                                 <Table.Cell>
                                     <Button.Group>
                                         <Button outline pill size="xs"
-                                            onClick={() => handleOrderQuantity("decrease", cartProductId, selectedQuantity, product.productQuantity)}>
+                                            onClick={() => handleOrderQuantity("decrease", _id, selectedQuantity, product.stocks)}>
                                             -
                                         </Button>
                                         <Button outline pill size="xs" disabled>
                                             {selectedQuantity}
                                         </Button>
                                         <Button outline pill size="xs"
-                                            onClick={() => handleOrderQuantity("increase", cartProductId, selectedQuantity, product.productQuantity)}>
+                                            onClick={() => handleOrderQuantity("increase", _id, selectedQuantity, product.stocks)}>
                                             +
                                         </Button>
                                     </Button.Group>
                                 </Table.Cell>
-                                <Table.Cell>{product.productQuantity}</Table.Cell>
-                                <Table.Cell>{product.productDescription}</Table.Cell>
+                                <Table.Cell>{product.stocks}</Table.Cell>
+                                <Table.Cell>{product.description}</Table.Cell>
                                 <Table.Cell>
                                     <img src={product.productImage ? product.productImage : giftbox} alt="Product" className="w-16 h-16 object-cover" />
                                 </Table.Cell>
@@ -224,7 +219,7 @@ function CartComp() {
                                     </Button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Button onClick={() => { handleRemoveCartProduct(cartProductId) }} outline gradientDuoTone="pinkToOrange">
+                                    <Button onClick={() => { handleRemoveCartProduct(_id) }} outline gradientDuoTone="pinkToOrange">
                                         Remove
                                     </Button>
                                 </Table.Cell>
