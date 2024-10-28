@@ -20,14 +20,14 @@ function OrderPreview() {
     let address = location.state.address || {};
     let quantity = location.state.quantity || 0;
     // console.log(product);
-    // console.log(`${product.productId || product.inventoryId}`)
+    // console.log(address)
 
     document.title = "Order Preview - Ecommerce Shopping App"
 
     const productEle = [
         {
             title: "Description:",
-            value: product.description || product.productDescription
+            value: product.description
         },
     ];
 
@@ -52,7 +52,7 @@ function OrderPreview() {
     const PriceEle = [
         {
             title: "Product Price:",
-            value: (product.price || product.productPrice).toFixed(2) + " Rs/-"
+            value: product.price.toFixed(2) + " Rs/-"
         },
         {
             title: "Quantity:",
@@ -68,11 +68,11 @@ function OrderPreview() {
         },
         {
             title: "Total Discount Price:",
-            value: (quantity * (product.price || product.productPrice) * (product.discount / 100)).toFixed(2) + " Rs/-"
+            value: (quantity * product.price * (product.discount / 100)).toFixed(2) + " Rs/-"
         },
         {
             title: "Total Price:",
-            value: (quantity * (product.price || product.productPrice)).toFixed(2) + " Rs/-"
+            value: (quantity * product.price).toFixed(2) + " Rs/-"
         },
     ];
 
@@ -82,13 +82,13 @@ function OrderPreview() {
         e.preventDefault();
         setProgress(70)
         try {
-            const response = await axios.post(`${BASE_URL}customers/${isLogin.userId}/addresses/${address.addressId}/products/${product.productId || product.inventoryId}/purchase-orders`,
+            const response = await axios.post(`${BASE_URL}customers/${isLogin.userId}/addresses/${address._id}/products/${product._id}/purchase-orders`,
                 {
                     totalQuantity: quantity,
-                    totalPrice: (quantity * (product.price || product.productPrice)).toFixed(2),
+                    totalPrice: (quantity * product.price).toFixed(2),
                     discount: product.discount,
-                    discountPrice: (quantity * (product.price || product.productPrice) * (product.discount / 100)).toFixed(2),
-                    totalPayableAmount: ((quantity * (product.price || product.productPrice)) - (quantity * (product.price || product.productPrice) * (product.discount / 100))).toFixed(2)
+                    discountPrice: (quantity * product.price * (product.discount / 100)).toFixed(2),
+                    totalPayableAmount: ((quantity * product.price) - (quantity * product.price * (product.discount / 100))).toFixed(2)
                 },
                 {
                     headers: { "Content-Type": "application/json" },
@@ -104,7 +104,7 @@ function OrderPreview() {
                     setPopupOpen(true);
                     setOpenModal(true)
                 }, 0);
-            }else if (response.status === 200) {
+            } else if (response.status === 200) {
                 setTimeout(() => {
                     setPopupData(response.data.message);
                     setPopupOpen(true);

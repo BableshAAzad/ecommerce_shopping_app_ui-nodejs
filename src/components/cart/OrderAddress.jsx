@@ -67,7 +67,7 @@ export default function OrderAddress() {
             </div>
             <div className="row-span-1 md:row-span-2 col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-2 mb-10">
                 {addressData.length > 0 ? addressData.map((address, index) => {
-                    return <Card key={address.addressId} className="max-w-sm">
+                    return <Card key={address._id} className="max-w-sm">
                         <div className="flex flex-wap justify-between m-1">
                             <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
                                 Address : {address.addressType}
@@ -118,16 +118,16 @@ export default function OrderAddress() {
                                         Add Contact
                                     </Link>}
                             </h5>
-                            {address.contacts.map(({ contactId, contactNumber, priority }) => {
-                                return <div key={contactId} className="flex justify-around">
-                                    <span className="text-sm text-slate-500 dark:text-slate-400">{priority}</span>
-                                    <span className="text-slate-700 dark:text-slate-300 mr-1">{contactNumber}</span>
+                            {address.contacts.map((contact) => {
+                                return <div key={contact._id} className="flex justify-around">
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">{contact.priority}</span>
+                                    <span className="text-slate-700 dark:text-slate-300 mr-1">{contact.contactNumber}</span>
                                     <Link to="/profile-page/addresses/update-contact"
                                         state={{
-                                            addressId: address.addressId,
-                                            contactId: contactId,
-                                            contactNumber: contactNumber,
-                                            priority: priority,
+                                            addressId: address._id,
+                                            contactId: contact._id,
+                                            contactNumber: contact.contactNumber,
+                                            priority: contact.priority,
                                             from: location.pathname
                                         }} >
                                         <FontAwesomeIcon className="text-blue-600" icon={faPenToSquare} />
