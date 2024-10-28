@@ -61,7 +61,7 @@ function HomePage() {
             console.log(error)
         }
     };
-
+// 
     const handleFilterProducts = async (filterData, reset = false) => {
         setIsLoading(true)
         if (reset) {

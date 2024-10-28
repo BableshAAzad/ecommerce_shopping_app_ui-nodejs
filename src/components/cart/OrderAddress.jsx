@@ -113,7 +113,7 @@ export default function OrderAddress() {
                                 {address.contacts.length >= 2 ?
                                     <span className="text-slate-500">Max-2</span> :
                                     <Link className="text-sm text-blue-600 hover:underline"
-                                        to={`/profile-page/addresses/add-contact/${address.addressId}`}
+                                        to={`/profile-page/addresses/add-contact/${address._id}`}
                                         state={{ from: location.pathname }}>
                                         Add Contact
                                     </Link>}
