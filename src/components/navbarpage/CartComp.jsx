@@ -43,7 +43,7 @@ function CartComp() {
                 withCredentials: true,
             });
             setProgress(90)
-            console.log(responseCartProducts.data.data)
+            // console.log(responseCartProducts.data.data)
             setCartProduct(responseCartProducts.data.data)
         } catch (error) {
             console.error(error);
@@ -99,6 +99,7 @@ function CartComp() {
                 setPreviousLocation("/cart")
                 setModelMessage(responseCartProducts.data.message)
                 setOpenModal(true)
+                await handleCartProduct();
             }
         } catch (error) {
             console.error(error);
@@ -125,6 +126,7 @@ function CartComp() {
                 setPreviousLocation("/cart")
                 setModelMessage(responseCartProducts.data.message)
                 setOpenModal(true)
+                await handleCartProduct();
             }
         } catch (error) {
             console.error(error);
