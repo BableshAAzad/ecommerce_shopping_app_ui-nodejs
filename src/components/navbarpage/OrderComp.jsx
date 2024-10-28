@@ -41,9 +41,9 @@ function OrderComp() {
     let downloadInvoice = async (orderId) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`${BASE_URL}customers/purchase-orders/${orderId}`, {
+            const response = await axios.get(`${BASE_URL}customers/purchase-orders/invoice/${orderId}`, {
                 headers: { "Content-Type": "application/json" },
-                responseType: 'blob', // This is important for handling binary data
+                responseType: 'blob',
                 withCredentials: true,
             });
 
