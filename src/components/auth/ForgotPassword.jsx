@@ -29,7 +29,7 @@ function ForgotPassword() {
         e.preventDefault();
         try {
             setProgress(70)
-            const response = await axios.put(`${BASE_URL}users/update/` + emailData.email, "",
+            const response = await axios.put(`${BASE_URL}users/update/` + emailData.email, {},
                 {
                     headers: { "Content-Type": "application/json" },
                 }

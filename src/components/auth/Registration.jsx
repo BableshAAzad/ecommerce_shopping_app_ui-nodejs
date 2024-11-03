@@ -129,6 +129,9 @@ function Registration({ registrationType, pageTitle }) {
                 head={`Invalid data`} msg={`Please fill proper data`} />}
 
             <h1 className='dark:text-white text-center text-2xl font-bold mt-4'>{pageTitle} Registration Page</h1>
+            <h4 className='text-slate-600 text-center text-base font-bold mt-1'>You Have already Account?
+                <Link className='text-blue-700 underline' to="/login-form"> SIGN IN</Link>
+            </h4>
             <div className='flex justify-center m-4'>
                 <form className="flex max-w-md flex-col gap-4 p-8 bg-blue-300 dark:bg-slate-800 rounded" onSubmit={submitFormData}>
                     <div>
