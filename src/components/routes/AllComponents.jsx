@@ -32,6 +32,8 @@ const OrderPreview = React.lazy(() => import("../cart/OrderPreview"));
 const ForgotPassword = React.lazy(() => import("../auth/ForgotPassword"));
 const CustomerCare = React.lazy(() => import("../header/moreoption/CustomerCare"));
 const CartComp = React.lazy(() => import("../navbarpage/CartComp"));
+const UpdatePasswordPage = React.lazy(() => import("../auth/UpdatePasswordPage"));
+
 
 
 export const RouteComps = [
@@ -338,6 +340,17 @@ export const RouteComps = [
             </Suspense>
         ),
         path: "forgot-password",
+        isPrivate: false,
+        isVisibleAfterLogin: false,
+        role: []
+    },
+    {
+        element: (
+            <Suspense fallback={<Spinner />}>
+                <UpdatePasswordPage />
+            </Suspense>
+        ),
+        path: "update-password",
         isPrivate: false,
         isVisibleAfterLogin: false,
         role: []

@@ -14,7 +14,7 @@ function UpdatePasswordPage() {
     const location = useLocation();
     const [credential, setCredential] = useState({
         email: location.state?.email ?? "", password: "",
-        password1: "", termAndCondition: false, secrete: ""
+        password_confirmation: "", termAndCondition: false, secrete: ""
     });
     const [formData, setFormData] = useState({ email: location.state?.email ?? "", password: "" });
     const [isWrongFormData, setIsWrongFormData] = useState(false);
@@ -36,7 +36,7 @@ function UpdatePasswordPage() {
             [name]: type === 'checkbox' ? checked : value
         }));
 
-        if (name !== 'password1' && name !== 'termAndCondition' && name !== "secrete") {
+        if (name !== "secrete") {
             setFormData((prev) => ({
                 ...prev,
                 [name]: value
@@ -46,7 +46,7 @@ function UpdatePasswordPage() {
             setCredential({ ...credential, [name]: value })
         }
 
-        if (name === 'password1') {
+        if (name === 'password_confirmation') {
             if (value === "") {
                 setPasswordClass("");
                 setIsSubmitDisabled(true);
@@ -59,7 +59,7 @@ function UpdatePasswordPage() {
         }
 
         if (name === 'termAndCondition') {
-            const passwordValid = credential.password1.length >= 8 && credential.password1 === credential.password;
+            const passwordValid = credential.password_confirmation.length >= 8 && credential.password_confirmation === credential.password;
             if (checked && passwordValid) {
                 setIsSubmitDisabled(false);
             } else {
@@ -71,7 +71,7 @@ function UpdatePasswordPage() {
     const submitFormData = async (e) => {
         e.preventDefault();
         setProgress(30)
-        if (!credential.termAndCondition || credential.password !== credential.password1) {
+        if (!credential.termAndCondition || credential.password !== credential.password_confirmation) {
             setIsWrongFormData(false)
             setPopupOpen(false);
             setTimeout(() => {
@@ -90,7 +90,7 @@ function UpdatePasswordPage() {
                     headers: { "Content-Type": "application/json" },
                 });
             setProgress(90)
-            setCredential({ email: "", password: "", password1: "", termAndCondition: false, secrete: "" });
+            setCredential({ email: "", password: "", password_confirmation: "", termAndCondition: false, secrete: "" });
             setFormData({ email: "", password: "" });
             console.log(response)
             if (response.status === 200) {
@@ -139,7 +139,7 @@ function UpdatePasswordPage() {
                             <Label htmlFor={`${id}pre`} value="Your email" />
                         </div>
                         <TextInput id={`${id}pre`} type="email" value={credential.email} name="email" icon={HiMail}
-                            onChange={updateData} placeholder="example@gmail.com" autoComplete='true' required shadow />
+                            onChange={updateData} placeholder="example@gmail.com" autoComplete='true' disabled shadow />
                     </div>
                     <div>
                         <div className="mb-2 flex justify-between">
@@ -159,7 +159,7 @@ function UpdatePasswordPage() {
                         <div className="mb-2 block">
                             <Label htmlFor={`${id}prr`} value="Repeat password" />
                         </div>
-                        <TextInput id={`${id}prr`} type="password" className={passwordClass} name="password1" value={credential.password1}
+                        <TextInput id={`${id}prr`} type="password" className={passwordClass} name="password_confirmation" value={credential.password_confirmation}
                             onChange={updateData} placeholder='Abc@123xyz' icon={HiLockClosed} autoComplete='true' required shadow />
                     </div>
 
