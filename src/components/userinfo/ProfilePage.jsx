@@ -77,11 +77,11 @@ function ProfilePage() {
                         <img src={user} className=" ml-auto mr-auto" style={{ width: "18rem" }} alt="user" />
                         <div className="flex flex-col items-center">
                             <Button onClick={() => handleLogout("logoutFromAllDevices")}
-                                className="m-2" outline gradientDuoTone="redToYellow">
+                                className="m-2" outline gradientDuoTone="redToYellow" disabled>
                                 Logout from All Devices
                             </Button>
                             <Button onClick={() => handleLogout("logoutFromOtherDevices")}
-                                className="m-2" outline gradientDuoTone="purpleToBlue">
+                                className="m-2" outline gradientDuoTone="purpleToBlue" disabled>
                                 Logout From Other Devices
                             </Button>
                         </div>
