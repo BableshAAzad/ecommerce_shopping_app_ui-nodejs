@@ -4,17 +4,22 @@ import axios from "axios";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useContext, useState } from "react";
 import { HiMail } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BASE_URL } from "../appconstants/EcommerceUrl";
 import { AuthContext } from "../authprovider/AuthProvider";
 import PopupWarn from "../popup/PopupWarn";
 
 function ForgotPassword() {
-    let [emailData, setEmailData] = useState({ email: "", password: "Ecommerce@123!" })
+    let [emailData, setEmailData] = useState({ email: "" })
     let [popupOpen, setPopupOpen] = useState(false);
-    let [popupData, setPopupData] = useState("");
-    let { otpVerify, setProgress, setIsLoading } = useContext(AuthContext);
-    let navigate = useNavigate();
+    let [popupData, setPopupData] = useState({ message: "", rootCause: "" });
+    let { otpVerify,
+        setProgress,
+        setIsLoading,
+        setOpenModal,
+        setModelMessage,
+        setPreviousLocation
+    } = useContext(AuthContext);
 
     document.title = "Forgot Password - Ecommerce Shopping App"
 
@@ -29,22 +34,24 @@ function ForgotPassword() {
         e.preventDefault();
         try {
             setProgress(70)
-            const response = await axios.put(`${BASE_URL}users/update/` + emailData.email, {},
+            const response = await axios.put(`${BASE_URL}users/reset-password`, emailData,
                 {
                     headers: { "Content-Type": "application/json" },
                 }
             )
-            // console.log(response)
             setProgress(90)
+            // console.log(response.data)
             if (response.status === 200) {
                 otpVerify(true);
                 setIsLoading(false)
                 setProgress(100)
-                navigate("/opt-verification", { state: emailData });
+                setOpenModal(true)
+                setModelMessage(`${response.data.message}, ${response.data.data}`)
+                setPreviousLocation("/login-form")
             }
         } catch (error) {
             console.log(error)
-            setPopupData(error.response.data.message)
+            setPopupData({...popupData, message : error.response.data.message, rootCause : error.response.data.rootCause})
             setPopupOpen(true)
         } finally {
             setProgress(100)
@@ -56,7 +63,7 @@ function ForgotPassword() {
         <section className='mb-20 mt-10'>
             {popupOpen && <PopupWarn isOpen={popupOpen}
                 setIsOpen={setPopupOpen} clr="warning" width="w-2/3"
-                head={popupData} msg={""} />}
+                head={popupData.message} msg={popupData.rootCause} />}
 
 
             <h1 className='dark:text-slate-400 text-center text-2xl font-bold mt-4'>Reset Password Page</h1>

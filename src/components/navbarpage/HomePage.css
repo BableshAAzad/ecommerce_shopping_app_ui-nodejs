@@ -28,7 +28,7 @@
 } */
 @media only screen and (max-width: 409px) {
     .responsive-margin-409 {
-        padding-top: 2.5rem;
+        padding-top: 0rem;
     }
 
     .responsive-margin {
@@ -38,6 +38,6 @@
 
 @media only screen and (max-width: 337px) {
     .responsive-margin-337 {
-        padding-top: 3rem;
+        padding-top: 0rem;
     }
 }

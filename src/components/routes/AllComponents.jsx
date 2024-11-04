@@ -350,7 +350,7 @@ export const RouteComps = [
                 <UpdatePasswordPage />
             </Suspense>
         ),
-        path: "update-password",
+        path: "reset-password/:userId/:token",
         isPrivate: false,
         isVisibleAfterLogin: false,
         role: []
