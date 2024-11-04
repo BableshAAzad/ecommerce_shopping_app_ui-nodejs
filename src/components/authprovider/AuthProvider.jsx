@@ -131,7 +131,7 @@ function AuthProvider({ children }) {
             openLogoutAlertModal,
             setOpenLogoutAlertModal
         }}>
-            <div className={`sm:pt-[1px] md:pt-[23px] lg:pt-[1px] ${responsiveClass}`}>
+            <div className={`sm:pt-[0px] md:pt-[0px] lg:pt-[0px] ${responsiveClass}`}>
                 {isLoading && < Loading />}
 
                 <ModelAlert openModal={openModal}
