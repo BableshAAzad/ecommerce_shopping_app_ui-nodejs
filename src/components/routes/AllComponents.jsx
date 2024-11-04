@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import Spinner from "../loader/Spinner";
 import HomePage from "../navbarpage/HomePage";
+import Dashboard from "../seller/Dashboard";
 
 const CustomerRegistration = React.lazy(() => import("../auth/CustomerRegistration"));
 const LoginForm = React.lazy(() => import("../auth/LoginForm"));
@@ -279,6 +280,24 @@ export const RouteComps = [
         isVisibleAfterLogin: true,
         role: ["SELLER"]
     },
+    {
+        element: (
+            <Suspense fallback={<Spinner />}>
+                <Dashboard />
+            </Suspense>
+        ),
+        path: "sellers/dashboard",
+        isPrivate: true,
+        isVisibleAfterLogin: true,
+        role: ["SELLER"]
+    },
+
+
+
+
+
+
+
 
 
 
