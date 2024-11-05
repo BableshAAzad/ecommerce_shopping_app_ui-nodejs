@@ -22,7 +22,7 @@ function LogoutAlert({ openLogoutAlertModal, setOpenLogoutAlertModal }) {
                     withCredentials: true // Includes cookies with the request
                 }
             );
-            console.log(response.data)
+            // console.log(response.data)
             setProgress(90)
             if (response.status === 200) {
                 login(null)

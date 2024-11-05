@@ -2,7 +2,7 @@ import { Button, Card } from "flowbite-react"
 import { useNavigate } from "react-router-dom"
 import product from "../../images/products.png"
 import storage from "../../images/storageImg.png"
-
+import dashboard from "../../images/dashboard.png"
 
 function SellerComp() {
     let navigate = useNavigate()
@@ -10,7 +10,8 @@ function SellerComp() {
 
     let comps = [
         { url: "/sellers/products/add-product", title: "Add Products", image: storage, btnColor: "purpleToPink" },
-        { url: "/sellers/products", title: "Your Products", image: product, btnColor: "tealToLime" }
+        { url: "/sellers/products", title: "Your Products", image: product, btnColor: "tealToLime" },
+        { url: "/sellers/dashboard", title: "Dashboard", image: dashboard, btnColor: "redToYellow" }
     ]
 
     return (

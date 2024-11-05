@@ -70,11 +70,10 @@ function OptVerification() {
                 { email: formData.email, otp: otp.join('') },
                 {
                     headers: { "Content-Type": "application/json" },
-                    withCredentials: true // Includes cookies with the request
                 });
             setProgress(90)
             setOtp(["", "", "", "", "", ""])
-            console.log(response)
+            // console.log(response)
             if (response.status === 201) {
                 setIsLoading(false)
                 setProgress(100)
@@ -85,7 +84,7 @@ function OptVerification() {
             otpVerify(true)
             console.log(error)
             let errorData = error.response.data;
-            if (errorData.status === 400 || errorData.status === 403) {
+            if (errorData.status === 400 || errorData.status === 403 || errorData.status === 500) {
                 setErrorOtpData(errorData)
                 setIsOtpExpired(true)
             }
@@ -101,7 +100,7 @@ function OptVerification() {
             setIsLoading(true)
             setProgress(70)
             // console.log({ email: formData.email, opt: otp.join('') })
-            const response = await axios.post(`${BASE_URL}users/otpVerification`,
+            const response = await axios.post(`${BASE_URL}users/otp-verification`,
                 { email: formData.email, otp: otp.join('') },
                 {
                     headers: { "Content-Type": "application/json" },
@@ -120,7 +119,7 @@ function OptVerification() {
             otpVerify(true)
             console.log(error)
             let errorData = error.response.data;
-            if (errorData.status === 400 || errorData.status === 403) {
+            if (errorData.status === 400 || errorData.status === 403 ||  errorData.status === 500) {
                 setErrorOtpData(errorData)
                 setIsOtpExpired(true)
             }
@@ -144,13 +143,12 @@ function OptVerification() {
         try {
             setProgress(30)
             setIsLoading(true)
-            // console.log({ email: formData.email, opt: otp.join('') })
+            // console.log({ email: formData.email, opt: otp.join('') })/
             setProgress(70)
             const response = await axios.post(`${BASE_URL}users/resend-otp`,
                 formData,
                 {
                     headers: { "Content-Type": "application/json" },
-                    withCredentials: true // Includes cookies with the request
                 });
             setProgress(90)
             setIsLoading(false)
@@ -163,7 +161,7 @@ function OptVerification() {
             otpVerify(true)
             console.log(error)
             let errorData = error.response.data;
-            if (errorData.status === 400 || errorData.status === 403) {
+            if (errorData.status === 400 || errorData.status === 403 ||  errorData.status === 500) {
                 setErrorOtpData(errorData)
                 setIsOtpExpired(true)
             }

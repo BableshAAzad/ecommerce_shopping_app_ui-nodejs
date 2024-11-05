@@ -25,7 +25,6 @@ function ProductInfo() {
     const [popupOpen, setPopupOpen] = useState(false);
     const [popupData, setPopupData] = useState({});
     const [responseSuccessButton, setResponseSuccessButton] = useState(false);
-
     let getProduct = async () => {
         try {
             setProgress(30)
@@ -36,7 +35,7 @@ function ProductInfo() {
             setProduct(response)
             setProgress(90)
             // console.log(response)
-            setStocks(response.stocks[0].quantity)
+            setStocks(response.stocks)
         } catch (error) {
             console.log(error)
         } finally {
@@ -70,11 +69,11 @@ function ProductInfo() {
         let tempProduct = {
             "selectedQuantity": orderQuantity,
             "product": {
-                "productId": product.inventoryId,
+                "productId": product._id,
                 "productTitle": product.productTitle,
                 "productDescription": product.description,
                 "productPrice": product.price,
-                "productQuantity": product.stocks[0].quantity,
+                "productQuantity": product.stocks,
                 "availabilityStatus": "YES"
             }
         }
@@ -89,7 +88,7 @@ function ProductInfo() {
             );
             setProgress(90)
             // console.log(response);
-            if (response.status === 201) {
+            if (response.status === 201 || response.status === 200) {
                 setTimeout(() => {
                     setPopupData(response.data);
                     setPopupOpen(true);
@@ -170,9 +169,7 @@ function ProductInfo() {
                 handleCartProduct(product);
                 !isLogin
                     ? navigate("/login-form")
-                    : navigate("/cart/addresses", {
-                        state: { product: product, quantity: orderQuantity },
-                    });
+                    : navigate(`/cart/products/${product._id}/${orderQuantity}/addresses`);
             }}
             gradientDuoTone="purpleToPink"
             disabled={isLogin && isLogin.userRole === "SELLER"}

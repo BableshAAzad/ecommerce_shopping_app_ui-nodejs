@@ -1,6 +1,6 @@
 import { Button, Card, Modal } from "flowbite-react";
-import { useLocation, useNavigate } from "react-router-dom"
-import { useContext, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom"
+import { useContext, useEffect, useState } from "react";
 import PopupWarn from "../popup/PopupWarn";
 import axios from "axios";
 import { AuthContext } from "../authprovider/AuthProvider";
@@ -13,54 +13,73 @@ function OrderPreview() {
     let [popupData, setPopupData] = useState("");
     let { isLogin, setProgress, setIsLoading } = useContext(AuthContext);
     let navigate = useNavigate();
-
-    let location = useLocation();
-    // console.log(location);
-    let product = location.state.product || {};
-    let address = location.state.address || {};
-    let quantity = location.state.quantity || 0;
-    // console.log(product);
-    // console.log(`${product.productId || product.inventoryId}`)
+    let { productId, selectedQuantity, addressId } = useParams();
+    let [previewData, setPreviewData] = useState({ product: {}, address: {} })
+    selectedQuantity = parseInt(selectedQuantity)
 
     document.title = "Order Preview - Ecommerce Shopping App"
+
+    useEffect(() => {
+        const fetchPreviewData = async () => {
+            try {
+                setIsLoading(true);
+                const productResponse = await axios.get(`${BASE_URL}products/${productId}`);
+                const addressResponse = await axios.get(`${BASE_URL}users/addresses/${addressId}`, {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true
+                });
+
+                setPreviewData({
+                    product: productResponse.data.data,
+                    address: addressResponse.data.data
+                });
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchPreviewData();
+    }, [productId, addressId, setIsLoading]);
+
 
     const productEle = [
         {
             title: "Description:",
-            value: product.description || product.productDescription
+            value: previewData.product.description
         },
     ];
 
     const AddressEle = [
         {
             title: "Address:",
-            value: `${address.streetAddress || ''}, 
-                    ${address.streetAddressAdditional || ''}, 
-                    ${address.city || ''}, ${address.state || ''}, 
-                    ${address.country || ''}, Pincode : ${address.pincode || ''}`
+            value: `${previewData.address.streetAddress || ''}, 
+                    ${previewData.address.streetAddressAdditional || ''}, 
+                    ${previewData.address.city || ''}, ${previewData.address.state || ''}, 
+                    ${previewData.address.country || ''}, Pincode : ${previewData.address.pincode || ''}`
         },
         {
-            title: `${address.contacts?.[0]?.priority || 'Primary'} contact:`,
-            value: address.contacts?.[0]?.contactNumber || 'N/A'
+            title: `${previewData.address.contacts?.[0]?.priority || 'Primary'} contact:`,
+            value: previewData.address.contacts?.[0]?.contactNumber || 'N/A'
         },
         {
-            title: `${address.contacts?.[1]?.priority || 'Secondary'} contact:`,
-            value: address.contacts?.[1]?.contactNumber || 'N/A'
+            title: `${previewData.address.contacts?.[1]?.priority || 'Secondary'} contact:`,
+            value: previewData.address.contacts?.[1]?.contactNumber || 'N/A'
         },
     ];
 
     const PriceEle = [
         {
             title: "Product Price:",
-            value: (product.price || product.productPrice).toFixed(2) + " Rs/-"
+            value: previewData.product.price ? previewData.product.price.toFixed(2) : 0 + " Rs/-"
         },
         {
             title: "Quantity:",
-            value: quantity
+            value: selectedQuantity
         },
         {
             title: "Discount:",
-            value: product.discount + "%"
+            value: previewData.product.discount + "%"
         },
         {
             title: "GST:",
@@ -68,11 +87,11 @@ function OrderPreview() {
         },
         {
             title: "Total Discount Price:",
-            value: (quantity * (product.price || product.productPrice) * (product.discount / 100)).toFixed(2) + " Rs/-"
+            value: (selectedQuantity * previewData.product.price * (previewData.product.discount / 100)).toFixed(2) + " Rs/-"
         },
         {
             title: "Total Price:",
-            value: (quantity * (product.price || product.productPrice)).toFixed(2) + " Rs/-"
+            value: (selectedQuantity * previewData.product.price).toFixed(2) + " Rs/-"
         },
     ];
 
@@ -82,13 +101,13 @@ function OrderPreview() {
         e.preventDefault();
         setProgress(70)
         try {
-            const response = await axios.post(`${BASE_URL}customers/${isLogin.userId}/addresses/${address.addressId}/products/${product.productId || product.inventoryId}/purchase-orders`,
+            const response = await axios.post(`${BASE_URL}customers/${isLogin.userId}/addresses/${addressId}/products/${productId}/purchase-orders`,
                 {
-                    totalQuantity: quantity,
-                    totalPrice: (quantity * (product.price || product.productPrice)).toFixed(2),
-                    discount: product.discount,
-                    discountPrice: (quantity * (product.price || product.productPrice) * (product.discount / 100)).toFixed(2),
-                    totalPayableAmount: ((quantity * (product.price || product.productPrice)) - (quantity * (product.price || product.productPrice) * (product.discount / 100))).toFixed(2)
+                    totalQuantity: selectedQuantity,
+                    totalPrice: (selectedQuantity * previewData.product.price).toFixed(2),
+                    discount: previewData.product.discount,
+                    discountPrice: (selectedQuantity * previewData.product.price * (previewData.product.discount / 100)).toFixed(2),
+                    totalPayableAmount: ((selectedQuantity * previewData.product.price) - (selectedQuantity * previewData.product.price * (previewData.product.discount / 100))).toFixed(2)
                 },
                 {
                     headers: { "Content-Type": "application/json" },
@@ -104,7 +123,7 @@ function OrderPreview() {
                     setPopupOpen(true);
                     setOpenModal(true)
                 }, 0);
-            }else if (response.status === 200) {
+            } else if (response.status === 200) {
                 setTimeout(() => {
                     setPopupData(response.data.message);
                     setPopupOpen(true);
@@ -122,7 +141,6 @@ function OrderPreview() {
             setIsLoading(false);
         }
     }
-
     return (
         <>
             {popupOpen && <PopupWarn isOpen={popupOpen} width="w-[90%]"
@@ -160,7 +178,7 @@ function OrderPreview() {
                         <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
                             Product Name :
                         </span>
-                        <span className="font-bold dark:text-white text-sm">{product.productTitle}</span>
+                        <span className="font-bold dark:text-white text-sm">{previewData.product.productTitle}</span>
                     </li>
 
                     {productEle.map((ele, index) => {
@@ -178,7 +196,7 @@ function OrderPreview() {
                         <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
                             Address Type:
                         </span>
-                        <span className="font-bold dark:text-white text-sm">{address.addressType}</span>
+                        <span className="font-bold dark:text-white text-sm">{previewData.address.addressType}</span>
                     </li>
                     {AddressEle.map((ele, index) => {
                         return <li key={index} className="flex justify-between space-x-3 ">
@@ -206,7 +224,7 @@ function OrderPreview() {
                         <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
                             Total Payable Amount :
                         </span>
-                        <span className="font-bold dark:text-white text-lg">{((quantity * (product.price || product.productPrice)) - (quantity * (product.price || product.productPrice) * (product.discount / 100))).toFixed(2)} Rs/-</span>
+                        <span className="font-bold dark:text-white text-lg">{((selectedQuantity * previewData.product.price) - (selectedQuantity * previewData.product.price * (previewData.product.discount / 100))).toFixed(2)} Rs/-</span>
                     </li>
 
                 </ul>

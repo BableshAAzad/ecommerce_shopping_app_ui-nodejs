@@ -57,6 +57,7 @@ function AddAddress() {
             // console.log(response);
         } catch (error) {
             console.log(error);
+            alert(error.response.data.rootCause)
         } finally {
             setIsLoading(false);
             setProgress(100)

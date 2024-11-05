@@ -61,7 +61,7 @@ function HomePage() {
             console.log(error)
         }
     };
-
+// 
     const handleFilterProducts = async (filterData, reset = false) => {
         setIsLoading(true)
         if (reset) {
@@ -194,9 +194,9 @@ function HomePage() {
             >
                 <section className="flex flex-wrap m-1 justify-around">
                     {products.length > 0 ?
-                        products.map(({ inventoryId, productTitle, price, productImage, description, discount }) => {
-                            return <Link to={`/products/${inventoryId}`}
-                                key={inventoryId + productTitle}
+                        products.map(({ _id, productTitle, price, productImage, description, discount }) => {
+                            return <Link to={`/products/${_id}`}
+                                key={_id + productTitle}
                                 className="rounded-md m-2 w-44 cardShadow product-link overflow-auto"
                                 title={productTitle}>
                                 <div>

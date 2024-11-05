@@ -9,14 +9,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { HiMail, HiLockClosed } from 'react-icons/hi';
 import { BASE_URL } from "../appconstants/EcommerceUrl"
+// import CryptoJS from 'crypto-js';
 
 // eslint-disable-next-line react/prop-types
 function Registration({ registrationType, pageTitle }) {
-    const [credential, setCredential] = useState({
-        email: "", password: "",
-        password_confirmation: "", termAndCondition: false
-    });
-    const [formData, setFormData] = useState({ email: "", password: "", password_confirmation: "", termAndCondition: false });
+    const [credential, setCredential] = useState({ email: "", password: "", password_confirmation: "", termAndCondition: false });
     const [isWrongFormData, setIsWrongFormData] = useState(false);
     const [popupOpen, setPopupOpen] = useState(false);
     const [popupData, setPopupData] = useState({});
@@ -26,20 +23,15 @@ function Registration({ registrationType, pageTitle }) {
     const navigate = useNavigate();
     const { otpVerify, setProgress, setIsLoading } = useContext(AuthContext);
 
+    // const encryptionKey = import.meta.env.VITE_PASSWORD_ENCRYPTION_KEY;
+
     const updateData = (e) => {
         const { name, value, type, checked } = e.target;
         setCredential((prev) => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
-        if (name !== 'password_confirmation' && name !== 'termAndCondition') {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: value
-            }));
-        }
-        // console.log(credential)
-        // console.log(checked)
+   
         // Validate password match and length only if password_confirmation field is changed
         if (name === 'password_confirmation') {
             if (value === "") {
@@ -65,7 +57,6 @@ function Registration({ registrationType, pageTitle }) {
         }
     };
 
-    // console.log(`${BASE_URL}${registrationType}/register`)
     const submitFormData = async (e) => {
         setProgress(30)
         e.preventDefault();
@@ -79,29 +70,32 @@ function Registration({ registrationType, pageTitle }) {
             return;
         }
         try {
+            // TODO needed to apply client side encrypt the password
+            // const encryptedPassword = CryptoJS.AES.encrypt(credential.password, encryptionKey).toString();
+            // const encryptedPasswordConfirmation = CryptoJS.AES.encrypt(credential.password_confirmation, encryptionKey).toString();
+
             setIsLoading(true);
             setProgress(70)
             // console.log(credential)
             const response = await axios.post(`${BASE_URL}${registrationType}/register`,
+                // { ...credential, password: encryptedPassword, password_confirmation: encryptedPasswordConfirmation },
                 credential,
                 {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true
+                    headers: { "Content-Type": "application/json" }
                 });
             setProgress(90)
             setCredential({ email: "", password: "", password_confirmation: "", termAndCondition: false });
-            setFormData({ email: "", password: "" });
             if (response.status === 202) {
                 otpVerify(true);
                 setIsLoading(false);
                 setProgress(100)
-                navigate("/opt-verification", { state: formData });
+                navigate("/opt-verification", { state: credential });
             }
         } catch (error) {
             otpVerify(false);
             console.log(error)
             // console.log(error.response.rootCause);
-            if (error.response.status === 404 || error.response.status === 400) {
+            if (error.response.status === 500 || error.response.status === 400 || error.response.status === 409) {
                 setPopupOpen(false);
                 setTimeout(() => {
                     setPopupData(error.response.data);
@@ -117,18 +111,20 @@ function Registration({ registrationType, pageTitle }) {
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
     }
-    // const isSubmitDisabled = !credential.termAndCondition || credential.password !== credential.password_confirmation;
     return (
         <>
             {popupOpen && <PopupWarn isOpen={popupOpen}
                 setIsOpen={setPopupOpen} clr="warning" width="w-[90%]"
-                head={popupData.message} msg={popupData.rootCause.password || popupData.rootCause} />}
+                head={popupData.message} msg={ popupData.rootCause} />}
 
             {isWrongFormData && <PopupWarn isOpen={isWrongFormData}
                 setIsOpen={setIsWrongFormData} clr="warning" width="w-[90%]"
                 head={`Invalid data`} msg={`Please fill proper data`} />}
 
             <h1 className='dark:text-white text-center text-2xl font-bold mt-4'>{pageTitle} Registration Page</h1>
+            <h4 className='text-slate-600 text-center text-base font-bold mt-1'>You Have already Account?
+                <Link className='text-blue-700 underline' to="/login-form"> SIGN IN</Link>
+            </h4>
             <div className='flex justify-center m-4'>
                 <form className="flex max-w-md flex-col gap-4 p-8 bg-blue-300 dark:bg-slate-800 rounded" onSubmit={submitFormData}>
                     <div>

@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import Spinner from "../loader/Spinner";
 import HomePage from "../navbarpage/HomePage";
+import Dashboard from "../seller/Dashboard";
 
 const CustomerRegistration = React.lazy(() => import("../auth/CustomerRegistration"));
 const LoginForm = React.lazy(() => import("../auth/LoginForm"));
@@ -32,6 +33,8 @@ const OrderPreview = React.lazy(() => import("../cart/OrderPreview"));
 const ForgotPassword = React.lazy(() => import("../auth/ForgotPassword"));
 const CustomerCare = React.lazy(() => import("../header/moreoption/CustomerCare"));
 const CartComp = React.lazy(() => import("../navbarpage/CartComp"));
+const UpdatePasswordPage = React.lazy(() => import("../auth/UpdatePasswordPage"));
+
 
 
 export const RouteComps = [
@@ -52,7 +55,7 @@ export const RouteComps = [
                 <OrderAddress />
             </Suspense>
         ),
-        path: "cart/addresses",
+        path: "/cart/products/:productId/:selectedQuantity/addresses",
         isPrivate: true,
         isVisibleAfterLogin: true,
         role: ["CUSTOMER"]
@@ -63,7 +66,7 @@ export const RouteComps = [
                 <OrderPreview />
             </Suspense>
         ),
-        path: "cart/addresses/order-preview",
+        path: "cart/products/:productId/:selectedQuantity/addresses/:addressId/order-preview",
         isPrivate: true,
         isVisibleAfterLogin: true,
         role: ["CUSTOMER"]
@@ -277,6 +280,24 @@ export const RouteComps = [
         isVisibleAfterLogin: true,
         role: ["SELLER"]
     },
+    {
+        element: (
+            <Suspense fallback={<Spinner />}>
+                <Dashboard />
+            </Suspense>
+        ),
+        path: "sellers/dashboard",
+        isPrivate: true,
+        isVisibleAfterLogin: true,
+        role: ["SELLER"]
+    },
+
+
+
+
+
+
+
 
 
 
@@ -338,6 +359,17 @@ export const RouteComps = [
             </Suspense>
         ),
         path: "forgot-password",
+        isPrivate: false,
+        isVisibleAfterLogin: false,
+        role: []
+    },
+    {
+        element: (
+            <Suspense fallback={<Spinner />}>
+                <UpdatePasswordPage />
+            </Suspense>
+        ),
+        path: "reset-password/:userId/:token",
         isPrivate: false,
         isVisibleAfterLogin: false,
         role: []
