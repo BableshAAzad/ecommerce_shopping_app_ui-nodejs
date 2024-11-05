@@ -15,9 +15,9 @@
     transition: transform 0.2s ease-in-out;
 }
 
-/* @media only screen and (max-width: 1016px) {
-    .responsive-margin-1016 {
-        margin-top: 1.5rem;
+@media only screen and (max-width: 1005px) {
+    .responsive-margin-1005 {
+        margin-top: 0rem;
     }
 }
 
@@ -25,10 +25,11 @@
     .responsive-margin-768 {
         margin-top: 0.2rem;
     }
-} */
+}
+
 @media only screen and (max-width: 409px) {
     .responsive-margin-409 {
-        padding-top: 0rem;
+        padding-top: 2.5rem;
     }
 
     .responsive-margin {
@@ -38,6 +39,6 @@
 
 @media only screen and (max-width: 337px) {
     .responsive-margin-337 {
-        padding-top: 0rem;
+        padding-top: 3rem;
     }
 }

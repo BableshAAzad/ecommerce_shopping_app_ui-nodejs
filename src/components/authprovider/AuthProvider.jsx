@@ -101,6 +101,8 @@ function AuthProvider({ children }) {
                 setResponsiveClass('responsive-margin-337');
             } else if (window.innerWidth < 409) {
                 setResponsiveClass('responsive-margin-409');
+            }else if (window.innerWidth < 1005) {
+                setResponsiveClass('responsive-margin-1005');
             } else {
                 setResponsiveClass('');
             }
@@ -131,7 +133,7 @@ function AuthProvider({ children }) {
             openLogoutAlertModal,
             setOpenLogoutAlertModal
         }}>
-            <div className={`sm:pt-[0px] md:pt-[0px] lg:pt-[0px] ${responsiveClass}`}>
+            <div className={`sm:pt-[1px] md:pt-[23px] lg:pt-[1px] ${responsiveClass} dark:bg-slate-900`}>
                 {isLoading && < Loading />}
 
                 <ModelAlert openModal={openModal}
