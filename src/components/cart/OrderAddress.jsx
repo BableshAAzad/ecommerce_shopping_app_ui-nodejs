@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../authprovider/AuthProvider";
 import axios from "axios";
 import { Button, Card } from "flowbite-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMobileRetro } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -14,8 +14,9 @@ export default function OrderAddress() {
     let { isLogin, setProgress, setIsLoading } = useContext(AuthContext);
     let [addressData, setAddressData] = useState([]);
     let navigate = useNavigate();
+    let {productId, selectedQuantity} = useParams()
     let location = useLocation();
-    // console.log(location.state)
+
     document.title = "Address - Ecommerce Shopping App"
 
     let handleAddressData = async () => {
@@ -44,8 +45,8 @@ export default function OrderAddress() {
         handleAddressData();
     }, [])
 
-    let handleUpdateAddress = ({ data }) => {
-        navigate("/profile-page/update-address", { state: { data: data, from: location.pathname } })
+    let handleUpdateAddress = () => {
+        navigate("/profile-page/update-address", { state: { from: location.pathname } })
     }
 
     return (
@@ -66,20 +67,13 @@ export default function OrderAddress() {
                 </Button>
             </div>
             <div className="row-span-1 md:row-span-2 col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-2 mb-10">
-                {addressData.length > 0 ? addressData.map((address, index) => {
+                {addressData.length > 0 ? addressData.map((address) => {
                     return <Card key={address._id} className="max-w-sm">
                         <div className="flex flex-wap justify-between m-1">
                             <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
                                 Address : {address.addressType}
                             </h5>
-                            <Button onClick={() => navigate(`/cart/addresses/order-preview`,
-                                {
-                                    state: {
-                                        product: location.state.product,
-                                        address: address,
-                                        quantity: location.state.quantity
-                                    }
-                                })}
+                            <Button onClick={() => navigate(`/cart/products/${productId}/${selectedQuantity}/addresses/${address._id}/order-preview`)}
                                 disabled={address.contacts.length > 0 ? false : true}
                                 outline pill>
                                 {address.contacts.length > 0 ? "Choose Address" : "Add Contact First"}
@@ -101,7 +95,7 @@ export default function OrderAddress() {
                         <p className="font-mono text-gray-700 dark:text-gray-400">
                             <span className="font-bold">Country : </span> {address.country} - {address.pincode}
                         </p>
-                        <Button size="sm" onClick={() => handleUpdateAddress({ data: addressData[index] })}
+                        <Button size="sm" onClick={handleUpdateAddress}
                             outline gradientDuoTone="pinkToOrange">
                             Edit Address
                         </Button>
@@ -113,8 +107,7 @@ export default function OrderAddress() {
                                 {address.contacts.length >= 2 ?
                                     <span className="text-slate-500">Max-2</span> :
                                     <Link className="text-sm text-blue-600 hover:underline"
-                                        to={`/profile-page/addresses/add-contact/${address._id}`}
-                                        state={{ from: location.pathname }}>
+                                        to={`/profile-page/addresses/add-contact/${address._id}`} state={{ from: location.pathname }}>
                                         Add Contact
                                     </Link>}
                             </h5>
@@ -122,14 +115,7 @@ export default function OrderAddress() {
                                 return <div key={contact._id} className="flex justify-around">
                                     <span className="text-sm text-slate-500 dark:text-slate-400">{contact.priority}</span>
                                     <span className="text-slate-700 dark:text-slate-300 mr-1">{contact.contactNumber}</span>
-                                    <Link to="/profile-page/addresses/update-contact"
-                                        state={{
-                                            addressId: address._id,
-                                            contactId: contact._id,
-                                            contactNumber: contact.contactNumber,
-                                            priority: contact.priority,
-                                            from: location.pathname
-                                        }} >
+                                    <Link to="/profile-page/addresses/update-contact" state={{ from: location.pathname }}>
                                         <FontAwesomeIcon className="text-blue-600" icon={faPenToSquare} />
                                     </Link>
                                 </div>
