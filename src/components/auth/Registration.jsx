@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { HiMail, HiLockClosed } from 'react-icons/hi';
 import { BASE_URL } from "../appconstants/EcommerceUrl"
+// import CryptoJS from 'crypto-js';
 
 // eslint-disable-next-line react/prop-types
 function Registration({ registrationType, pageTitle }) {
@@ -21,6 +22,8 @@ function Registration({ registrationType, pageTitle }) {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
     const navigate = useNavigate();
     const { otpVerify, setProgress, setIsLoading } = useContext(AuthContext);
+
+    // const encryptionKey = import.meta.env.VITE_PASSWORD_ENCRYPTION_KEY;
 
     const updateData = (e) => {
         const { name, value, type, checked } = e.target;
@@ -67,10 +70,15 @@ function Registration({ registrationType, pageTitle }) {
             return;
         }
         try {
+            // TODO needed to apply client side encrypt the password
+            // const encryptedPassword = CryptoJS.AES.encrypt(credential.password, encryptionKey).toString();
+            // const encryptedPasswordConfirmation = CryptoJS.AES.encrypt(credential.password_confirmation, encryptionKey).toString();
+
             setIsLoading(true);
             setProgress(70)
             // console.log(credential)
             const response = await axios.post(`${BASE_URL}${registrationType}/register`,
+                // { ...credential, password: encryptedPassword, password_confirmation: encryptedPasswordConfirmation },
                 credential,
                 {
                     headers: { "Content-Type": "application/json" }

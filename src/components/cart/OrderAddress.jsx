@@ -8,7 +8,7 @@ import { faMobileRetro } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import map from "../../images/map.png"
-import {BASE_URL} from "../appconstants/EcommerceUrl"
+import { BASE_URL } from "../appconstants/EcommerceUrl"
 
 export default function OrderAddress() {
     let { isLogin, setProgress, setIsLoading } = useContext(AuthContext);
