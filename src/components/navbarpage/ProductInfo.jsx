@@ -169,9 +169,7 @@ function ProductInfo() {
                 handleCartProduct(product);
                 !isLogin
                     ? navigate("/login-form")
-                    : navigate("/cart/addresses", {
-                        state: { product: product, quantity: orderQuantity },
-                    });
+                    : navigate(`/cart/products/${product._id}/${orderQuantity}/addresses`);
             }}
             gradientDuoTone="purpleToPink"
             disabled={isLogin && isLogin.userRole === "SELLER"}

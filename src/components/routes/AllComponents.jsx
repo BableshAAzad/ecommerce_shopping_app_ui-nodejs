@@ -55,7 +55,7 @@ export const RouteComps = [
                 <OrderAddress />
             </Suspense>
         ),
-        path: "cart/addresses",
+        path: "/cart/products/:productId/:selectedQuantity/addresses",
         isPrivate: true,
         isVisibleAfterLogin: true,
         role: ["CUSTOMER"]
@@ -66,7 +66,7 @@ export const RouteComps = [
                 <OrderPreview />
             </Suspense>
         ),
-        path: "cart/addresses/order-preview",
+        path: "cart/products/:productId/:selectedQuantity/addresses/:addressId/order-preview",
         isPrivate: true,
         isVisibleAfterLogin: true,
         role: ["CUSTOMER"]

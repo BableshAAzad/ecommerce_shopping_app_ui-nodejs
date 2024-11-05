@@ -214,8 +214,7 @@ function CartComp() {
                                     <img src={product.productImage ? product.productImage : giftbox} alt="Product" className="w-16 h-16 object-cover" />
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Button onClick={() => navigate("/cart/addresses",
-                                        { state: { product: product, quantity: selectedQuantity } })}
+                                    <Button onClick={() => navigate(`/cart/products/${product._id}/${selectedQuantity}/addresses`)}
                                         outline gradientDuoTone="greenToBlue">
                                         Order
                                     </Button>
