@@ -26,7 +26,7 @@ function AddProduct() {
         description: "",
         productImage: null,
         materialTypes: [],
-        discountType: "",
+        discountType: "FLAT",
         discount: "",
         stocks: ""
     })
@@ -64,7 +64,7 @@ function AddProduct() {
         setProgress(50)
         try {
             if (productImage) {
-                // console.log(productImage);
+                console.log(formData);
                 formData = { ...formData, productImage: productImage }
             }
             setProgress(70)
