@@ -59,7 +59,7 @@ function ProfilePage() {
     }, [])
 
     let handleUpdateAddress = (data) => {
-        console.log(data)
+        // console.log(data)
         navigate("/profile-page/update-address",
             { state: { data: data, from: location.pathname } })
     }
@@ -122,7 +122,7 @@ function ProfilePage() {
                 </div>
                 <div className="row-span-1 md:row-span-2 col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-2">
                     {addressData.map((address) => {
-                        return <Card key={address._id} className="max-w-sm">
+                        return <Card key={address.id} className="max-w-sm">
                             <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
                                 Address : {address.addressType}
                             </h5>
@@ -153,19 +153,19 @@ function ProfilePage() {
                                     {address.contacts.length >= 2 ?
                                         <span className="text-slate-500">Max-2</span> :
                                         <Link className="text-sm text-blue-600 hover:underline"
-                                            to={`/profile-page/addresses/add-contact/${address._id}`}
+                                            to={`/profile-page/addresses/add-contact/${address.id}`}
                                             state={{ from: location.pathname }}>
                                             Add Contact
                                         </Link>}
                                 </h5>
                                 {address.contacts.map((contact) => {
-                                    return <div key={contact._id} className="flex justify-around">
+                                    return <div key={contact.id} className="flex justify-around">
                                         <span className="text-sm text-slate-500 dark:text-slate-400">{contact.priority}</span>
                                         <span className="text-slate-700 dark:text-slate-300 mr-1">{contact.contactNumber}</span>
                                         <Link to="/profile-page/addresses/update-contact"
                                             state={{
-                                                addressId: address._id,
-                                                contactId: contact._id,
+                                                addressId: address.id,
+                                                contactId: contact.id,
                                                 contactNumber: contact.contactNumber,
                                                 priority: contact.priority,
                                                 from: location.pathname

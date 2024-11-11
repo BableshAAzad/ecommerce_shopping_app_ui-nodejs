@@ -64,11 +64,11 @@ function AddProduct() {
         setProgress(50)
         try {
             if (productImage) {
-                console.log(formData);
+                // console.log(formData);
                 formData = { ...formData, productImage: productImage }
             }
             setProgress(70)
-            const response = await axios.post(`${BASE_URL}products`,
+            const response = await axios.post(`${BASE_URL}sellers/${isLogin.useId}/products`,
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },

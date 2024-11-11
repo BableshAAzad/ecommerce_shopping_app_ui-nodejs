@@ -114,10 +114,10 @@ function ProductBySeller() {
         scrollableTarget="row"
       >
         <section className="flex flex-wrap m-1 justify-around">
-          {filteredProducts.length > 0 ? filteredProducts.map(({ _id, productTitle, price, productImage, description, discount }) => {
+          {filteredProducts.length > 0 ? filteredProducts.map(({ id, productTitle, price, productImage, description, discount }) => {
             return (
-              <Link to={`/sellers/products/product-info/${_id}`}
-                key={_id}
+              <Link to={`/sellers/products/product-info/${id}`}
+                key={id}
                 className="rounded-md m-2 w-44 cardShadow product-link"
                 title={productTitle}>
                 <img

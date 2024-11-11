@@ -67,7 +67,7 @@ function UpdateProduct() {
     }
 
     let sendProductData = async (e) => {
-        console.log(formData)
+        // console.log(formData)
         setProgress(40)
         setIsLoading(true);
         e.preventDefault();
@@ -84,7 +84,8 @@ function UpdateProduct() {
         }
         setProgress(70)
         try {
-            const response = await axios.put(`${BASE_URL}sellers/products/${productId}`,
+            // console.log(formData)
+            const response = await axios.put(`${BASE_URL}sellers/${isLogin.userId}/products/${productId}`,
                 multipartFormData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
@@ -92,7 +93,7 @@ function UpdateProduct() {
                 }
             );
             setProgress(90)
-            console.log(response);
+            // console.log(response);
             if (response.status === 200) {
                 setModelMessage(response.data.message)
                 setPreviousLocation(from)
