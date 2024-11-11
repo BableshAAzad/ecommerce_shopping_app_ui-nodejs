@@ -69,10 +69,10 @@ function SearchProductModal({ openModal, setOpenModal }) {
                 )}
                 <div id="scrollable-container">
                     <ul className="my-1 space-y-3">
-                        {searchResults.map(({ _id, productTitle, description }) => (
-                            <li key={_id}>
+                        {searchResults.map(({ id, productTitle, description }) => (
+                            <li key={id}>
                                 <Link
-                                    to={`/products/${_id}`}
+                                    to={`/products/${id}`}
                                     onClick={() => {
                                         setOpenModal(false);
                                         setInputQuery("");

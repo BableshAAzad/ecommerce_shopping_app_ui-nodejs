@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import axios from 'axios';
 import { BASE_URL } from "../appconstants/EcommerceUrl";
@@ -18,6 +18,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { AuthContext } from '../authprovider/AuthProvider';
 
 ChartJS.register(
     CategoryScale,
@@ -35,18 +36,28 @@ const Dashboard = () => {
     const [data, setData] = useState({ lineData: [], barData: [], pieData: [] });
     const [period, setPeriod] = useState('daily'); // Default period
     const periods = ['daily', 'weekly', 'monthly', 'yearly']; // Available periods
+    let { isLogin,
+        setProgress,
+        setIsLoading, } = useContext(AuthContext);
 
     const fetchDashboardData = async () => {
+        setProgress(20)
         try {
-            const response = await axios.get(`${BASE_URL}sellers/products/dashboard`, {
+            setProgress(30)
+            setIsLoading(true)
+            const response = await axios.get(`${BASE_URL}sellers/${isLogin.userId}/products/dashboard`, {
                 params: { period }, // Send the selected period as a query parameter
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true // Includes cookies with the request
             });
+            setProgress(90)
             setData(response.data);
             // console.log(data);
         } catch (error) {
             console.error(error);
+        } finally {
+            setProgress(100)
+            setIsLoading(false)
         }
     };
 

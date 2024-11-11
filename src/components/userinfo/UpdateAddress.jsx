@@ -44,7 +44,7 @@ function UpdateAddress() {
         // console.log(addressData);
         setProgress(70)
         try {
-            const response = await axios.put(`${BASE_URL}users/addresses/${location.state.data._id}`,
+            const response = await axios.put(`${BASE_URL}users/addresses/${location.state.data.id}`,
                 addressData,
                 {
                     headers: { "Content-Type": "application/json" },

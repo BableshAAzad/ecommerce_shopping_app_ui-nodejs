@@ -186,8 +186,8 @@ function CartComp() {
                     </Table.Head>
 
                     <Table.Body className="divide-y">
-                        {cartProduct.map(({ _id, selectedQuantity, product }) => {
-                            return <Table.Row key={_id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        {cartProduct.map(({ id, selectedQuantity, product }) => {
+                            return <Table.Row key={id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                     {product.productTitle}
                                 </Table.Cell>
@@ -196,14 +196,14 @@ function CartComp() {
                                 <Table.Cell>
                                     <Button.Group>
                                         <Button outline pill size="xs"
-                                            onClick={() => handleOrderQuantity("decrease", _id, selectedQuantity, product.stocks)}>
+                                            onClick={() => handleOrderQuantity("decrease", id, selectedQuantity, product.stocks)}>
                                             -
                                         </Button>
                                         <Button outline pill size="xs" disabled>
                                             {selectedQuantity}
                                         </Button>
                                         <Button outline pill size="xs"
-                                            onClick={() => handleOrderQuantity("increase", _id, selectedQuantity, product.stocks)}>
+                                            onClick={() => handleOrderQuantity("increase", id, selectedQuantity, product.stocks)}>
                                             +
                                         </Button>
                                     </Button.Group>
@@ -214,13 +214,13 @@ function CartComp() {
                                     <img src={product.productImage ? product.productImage : giftbox} alt="Product" className="w-16 h-16 object-cover" />
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Button onClick={() => navigate(`/cart/products/${product._id}/${selectedQuantity}/addresses`)}
+                                    <Button onClick={() => navigate(`/cart/products/${product.id}/${selectedQuantity}/addresses`)}
                                         outline gradientDuoTone="greenToBlue">
                                         Order
                                     </Button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Button onClick={() => { handleRemoveCartProduct(_id) }} outline gradientDuoTone="pinkToOrange">
+                                    <Button onClick={() => { handleRemoveCartProduct(id) }} outline gradientDuoTone="pinkToOrange">
                                         Remove
                                     </Button>
                                 </Table.Cell>

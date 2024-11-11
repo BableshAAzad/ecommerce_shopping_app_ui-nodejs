@@ -69,7 +69,7 @@ function ProductInfo() {
         let tempProduct = {
             "selectedQuantity": orderQuantity,
             "product": {
-                "productId": product._id,
+                "productId": product.id,
                 "productTitle": product.productTitle,
                 "productDescription": product.description,
                 "productPrice": product.price,
@@ -169,7 +169,7 @@ function ProductInfo() {
                 handleCartProduct(product);
                 !isLogin
                     ? navigate("/login-form")
-                    : navigate(`/cart/products/${product._id}/${orderQuantity}/addresses`);
+                    : navigate(`/cart/products/${product.id}/${orderQuantity}/addresses`);
             }}
             gradientDuoTone="purpleToPink"
             disabled={isLogin && isLogin.userRole === "SELLER"}
