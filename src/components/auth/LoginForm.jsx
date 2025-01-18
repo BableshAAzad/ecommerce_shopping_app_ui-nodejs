@@ -51,10 +51,7 @@ function LoginForm() {
             setProgress(70)
             const response = await axios.post(`${BASE_URL}login`,
                 formData,
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true // Includes cookies with the request
-                }
+                
             );
             setProgress(90)
             setFormData({ username: "", password: "" })
@@ -66,7 +63,10 @@ function LoginForm() {
                 localStorage.setItem("userData", JSON.stringify(userData))
                 localStorage.setItem("atExpiredTime", new Date(nowDate + (userData.accessExpiration * 1000)).toString());
                 localStorage.setItem("rtExpiredTime", new Date(nowDate + (userData.refreshExpiration * 1000)).toString());
-                login(userData);
+                login(userData);{
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true // Includes cookies with the request
+                }
                 setIsLoading(false)
                 setProgress(100)
                 navigate("/")

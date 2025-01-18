@@ -28,7 +28,7 @@ function UserOtpVerifiedPage() {
       {formData !== null ?
         <Card className="max-w-sm bg-blue-200">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Operation Successfully done
+            Registration Successfully done
           </h5>
           <h6 className="text-xl font-normal text-gray-700 dark:text-gray-400">
             Your username is : <span className="text-green-800 dark:text-slate-300 font-bold">{formData.username}</span>

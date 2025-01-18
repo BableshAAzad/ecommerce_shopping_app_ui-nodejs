@@ -33,7 +33,7 @@ export default function FilterProduct({ isOpen, setIsOpen, handleFilterProducts 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Filter Data: ", filterData);
+        // console.log("Filter Data: ", filterData);
         handleFilterProducts(filterData, false);
         handleClose();
     };
