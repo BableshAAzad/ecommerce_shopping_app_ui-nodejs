@@ -68,7 +68,7 @@ function AddProduct() {
                 formData = { ...formData, productImage: productImage }
             }
             setProgress(70)
-            const response = await axios.post(`${BASE_URL}sellers/${isLogin.useId}/products`,
+            const response = await axios.post(`${BASE_URL}sellers/${isLogin.userId}/products`,
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
