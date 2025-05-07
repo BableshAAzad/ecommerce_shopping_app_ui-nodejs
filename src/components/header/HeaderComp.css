@@ -6,3 +6,8 @@
     display: inline-block;
     margin-left: 1rem;
 }
+
+.navColor {
+    backdrop-filter: blur(3px); /* Apply blur effect */
+    -webkit-backdrop-filter: blur(3px); /* For Safari support */
+}
