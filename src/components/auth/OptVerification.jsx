@@ -17,7 +17,7 @@ function OptVerification() {
     const [errorOtpData, setErrorOtpData] = useState({});
     const [time, setTime] = useState(5 * 60); // 5 minutes in seconds
     const location = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { otpVerify, setProgress, isLoading, setIsLoading } = useContext(AuthContext);
     const timerRef = useRef(null);
 

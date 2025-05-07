@@ -58,7 +58,7 @@ function LoginForm() {
             if (response.status === 200) {
                 let userData = response.data.data;
                 // console.log(userData)
-                let nowDate = new Date().getTime()
+                let nowDate = new Date().getTime();
                 localStorage.setItem("userData", JSON.stringify(userData))
                 localStorage.setItem("atExpiredTime", new Date(nowDate + (userData.accessExpiration * 1000)).toString());
                 localStorage.setItem("rtExpiredTime", new Date(nowDate + (userData.refreshExpiration * 1000)).toString());

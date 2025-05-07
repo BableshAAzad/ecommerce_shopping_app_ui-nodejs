@@ -24,7 +24,7 @@ function HeaderComp() {
 
     return (
         <>
-            <Navbar fluid className='bg-slate-300 dark:bg-gray-800 fixed w-full z-20 top-0 start-0 bg-opacity-75 dark:bg-opacity-70'>
+            <Navbar fluid className='navColor bg-slate-300 dark:bg-gray-800 fixed w-full z-20 top-0 start-0 bg-opacity-75 dark:bg-opacity-70'>
                 <NavLink to='/' className='flex items-center navlogo'>
                     {/* <Navbar.Link active={location.pathname === "/"} as="div"> */}
                     <img src={shopping_bags} alt="EcommerceShoppingApp" width="47" height="40" title="EcommerceShoppingApp" />
